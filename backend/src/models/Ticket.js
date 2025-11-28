@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const ticketSchema = new mongoose.Schema({
-  convId: String,
+  userId: String,
   issue: String,
-  escalationLevel: { type: Number, default: 0 },
-  status: { type: String, default: "open" }
+  status: { type: String, default: "open" },
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model("Ticket", ticketSchema);
