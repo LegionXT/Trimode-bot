@@ -12,15 +12,17 @@ app.use(cors());
 // routes
 app.use("/webhook", require("./routes/webhook"));
 
-const adminTicketRoutes = require("./routes/adminTickets");
-app.use("/admin/tickets", adminTicketRoutes);
+// AUTH middleware
+const adminAuth = require("./middleware/adminAuth");
 
-// 👉 ADD CONVERSATION API ROUTES HERE ...
-const conversationRoutes = require("./routes/conversations");
-app.use("/admin/conversations", conversationRoutes);
+// Admin login route (NO protection)
+app.use("/admin/auth", require("./routes/adminAuth"));
 
-const analyticsRoutes = require("./routes/analytics");
-app.use("/admin/analytics", analyticsRoutes);
+// PROTECTED ADMIN ROUTES
+app.use("/admin/tickets", adminAuth, require("./routes/adminTickets"));
+app.use("/admin/conversations", adminAuth, require("./routes/conversations"));
+app.use("/admin/analytics", adminAuth, require("./routes/analytics"));
+
 
 // DB connect
 mongoose
